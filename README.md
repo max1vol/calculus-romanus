@@ -43,10 +43,12 @@ aliter
 
 8. Comparisons
 
-a. Equals -- aequus etc
-b. not Equals -- non aequus
-c. Greater than -- maior quam
-d. Less than -- minor quam
+| English      | Calculus Romanus |
+| ------------ | ---------------- |
+| Equals       | aequus           |
+| Not Equals   | non aequus       |
+| Greater than | maior quam       |
+| Less than    | minor quam       |
 
 ## Examples
 
