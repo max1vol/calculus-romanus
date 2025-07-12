@@ -32,6 +32,14 @@ class TestInterpreter(unittest.TestCase):
         # This test confirms the current behavior: (X + V) * II = XXX
         self.assert_calculus_romanus("Scribo X addit V multiplicat II", "XXX")
 
+    def test_non_positive_numbers(self):
+        with self.assertRaises(ValueError):
+            run_calculus_romanus("Scribo V minuit V")  # 5 - 5 = 0
+        with self.assertRaises(ValueError):
+            run_calculus_romanus("Scribo V minuit X")  # 5 - 10 = -5
+        with self.assertRaises(ValueError):
+            run_calculus_romanus("x est V minuit X")  # x = -5
+
 
 if __name__ == "__main__":
     unittest.main()

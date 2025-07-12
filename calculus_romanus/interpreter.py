@@ -53,8 +53,6 @@ def handle_assignment(state):
     variable_name = state.tokens[state.index]
     state.index += 2  # Consume variable name and "est"
     value = evaluate_expression(state)
-    if value <= 0:
-        raise ValueError("Error: Non-positive numbers are not allowed.")
     state.variables[variable_name] = value
 
 
@@ -101,20 +99,25 @@ def handle_function_definition(state):
 
 
 def evaluate_expression(state):
+    error_message = "Transgressio! In aetate Romanorum, numeri infra I non existunt. (Violation! In the age of the Romans, numbers below I do not exist.)"
     left = get_value(state)
+    if left <= 0:
+        raise ValueError(error_message)
 
     while state.index < len(state.tokens):
         op = state.tokens[state.index]
         if op in ["addit", "minuit", "multiplicat"]:
             state.index += 1
             right = get_value(state)
+            if right <= 0:
+                raise ValueError(error_message)
+
             if op == "addit":
                 left = left + right
             elif op == "minuit":
-                result = left - right
-                if result <= 0:
-                    raise ValueError("Error: Non-positive numbers are not allowed.")
-                left = result
+                left = left - right
+                if left <= 0:
+                    raise ValueError(error_message)
             elif op == "multiplicat":
                 left = left * right
         else:
