@@ -1,5 +1,9 @@
 # Calculus Romanus
 
+## Interactive Demo
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1W_tQP46Nd50Zv0cDFZQMZe9bMmbhkfdH?usp=sharing)
+
 ## Rules
 
 1. All numbers written using Roman numerals
