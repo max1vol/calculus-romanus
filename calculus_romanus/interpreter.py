@@ -103,22 +103,22 @@ def handle_function_definition(state):
 def evaluate_expression(state):
     left = get_value(state)
 
-    if state.index >= len(state.tokens):
-        return left
-
-    op = state.tokens[state.index]
-    if op in ["addit", "minuit", "multiplicat"]:
-        state.index += 1
-        right = get_value(state)
-        if op == "addit":
-            return left + right
-        elif op == "minuit":
-            result = left - right
-            if result <= 0:
-                raise ValueError("Error: Non-positive numbers are not allowed.")
-            return result
-        elif op == "multiplicat":
-            return left * right
+    while state.index < len(state.tokens):
+        op = state.tokens[state.index]
+        if op in ["addit", "minuit", "multiplicat"]:
+            state.index += 1
+            right = get_value(state)
+            if op == "addit":
+                left = left + right
+            elif op == "minuit":
+                result = left - right
+                if result <= 0:
+                    raise ValueError("Error: Non-positive numbers are not allowed.")
+                left = result
+            elif op == "multiplicat":
+                left = left * right
+        else:
+            break  # Not an operator, so we're done with the expression.
     return left
 
 

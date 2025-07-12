@@ -50,6 +50,11 @@ aliter
 | Greater than | maior quam       |
 | Less than    | minor quam       |
 
+9. Quircks
+
+a. No operator prescedence, no brackets
+b. 0 (zero) and negative numbers are not invented yet, so the program crashes if encounters those!
+
 ## Examples
 
 ### Tax Calculation
