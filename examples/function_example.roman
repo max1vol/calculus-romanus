@@ -1,0 +1,5 @@
+functio Summa(a, b)
+  reddo a addit b
+finio
+
+Scribo Summa(V, III)

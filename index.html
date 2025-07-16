@@ -3,8 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <title>Calculus Romanus</title>
-    <script src="https://skulpt.org/js/skulpt.min.js"></script>
-    <script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.28.0/full/pyodide.js"></script>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -73,7 +72,7 @@
       }
     </style>
   </head>
-  <body onload="Sk.configure({output: outf, read: builtinRead})">
+  <body>
     <h1>Calculus Romanus</h1>
     <h2>Playground</h2>
     <textarea id="code" cols="80" rows="12" spellcheck="false">
@@ -85,26 +84,61 @@ Scribo Summa(V, III)
 </textarea
     >
     <button class="run-button" onclick="runit()">Run ▶️</button>
-    <div id="output"></div>
+    <h3>Program output</h3>
+    <pre id="output"></pre>
     <script>
-      function outf(text) {
-        const o = document.getElementById("output");
-        o.textContent += text;
+      const codeEditor = document.getElementById("code");
+      const output = document.getElementById("output");
+      const runButton = document.querySelector(".run-button");
+
+      async function main() {
+        runButton.textContent = "Loading Pyodide...";
+        runButton.disabled = true;
+        let pyodide = await loadPyodide();
+        runButton.textContent = "Loading Interpreter...";
+        const isLocal = false; // Set to false in prod
+        const baseUrl = isLocal
+          ? ""
+          : "https://raw.githubusercontent.com/max1vol/calculus-romanus/main";
+        const response = await fetch(
+          `${baseUrl}/calculus_romanus/interpreter.py`
+        );
+        const interpreterCode = await response.text();
+        console.log(interpreterCode);
+        pyodide.runPython(interpreterCode);
+        runButton.textContent = "Run ▶️";
+        runButton.disabled = false;
+        return pyodide;
       }
 
-      function builtinRead(x) {
-        if (
-          Sk.builtinFiles === undefined ||
-          Sk.builtinFiles["files"][x] === undefined
-        )
-          throw "File not found: '" + x + "'";
-        return Sk.builtinFiles["files"][x];
-      }
+      let pyodideReadyPromise = main();
 
-      function runit() {
-        const prog = document.getElementById("code").value;
-        document.getElementById("output").textContent = "";
-        Sk.importMainWithBody("<stdin>", false, prog);
+      async function runit() {
+        output.textContent = "";
+        runButton.disabled = true;
+        runButton.textContent = "Running...";
+        try {
+          let pyodide = await pyodideReadyPromise;
+          // Capture Python's stdout
+          pyodide.globals.set("user_code", codeEditor.value);
+          const result = pyodide.runPython(`
+                import io
+                import sys
+                from js import document
+
+                sys.stdout = io.StringIO()
+                
+                run_calculus_romanus(user_code)
+                
+                sys.stdout.getvalue()
+            `);
+          output.textContent = result;
+        } catch (err) {
+          output.textContent = err;
+        } finally {
+          runButton.disabled = false;
+          runButton.textContent = "Run ▶️";
+        }
       }
     </script>
 
