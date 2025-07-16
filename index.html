@@ -19,6 +19,14 @@
         overflow-x: auto;
       }
 
+      #output {
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        padding: 10px;
+        border-radius: 8px;
+        min-height: 50px;
+      }
+
       table {
         width: 100%;
         border-collapse: collapse;
@@ -114,7 +122,6 @@ Scribo Summa(V, III)
       let pyodideReadyPromise = main();
 
       async function runit() {
-        output.textContent = "";
         runButton.disabled = true;
         runButton.textContent = "Running...";
         try {
