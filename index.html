@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Calculus Romanus</title>
+    <script src="https://skulpt.org/js/skulpt.min.js"></script>
+    <script src="https://skulpt.org/js/skulpt-stdlib.js"></script>
         <style>
         body {
             font-family: Arial, sans-serif;
@@ -70,17 +72,36 @@
         }
         </style>
 </head>
-<body>
+<body onload="Sk.configure({output: outf, read: builtinRead})">
 <h1>Calculus Romanus</h1>
 <h2>Playground</h2>
-<textarea cols="80" rows="12" spellcheck="false">
+<textarea id="code" cols="80" rows="12" spellcheck="false">
 functio Summa(a, b)
   reddo a addit b
 finio
 
 Scribo Summa(V, III)
 </textarea>
-<button class="run-button">Run ▶️</button>
+<button class="run-button" onclick="runit()">Run ▶️</button>
+<div id="output"></div>
+        <script>
+        function outf(text) {
+          const o = document.getElementById("output");
+          o.textContent += text;
+        }
+
+        function builtinRead(x) {
+          if (Sk.builtinFiles === undefined || Sk.builtinFiles["files"][x] === undefined)
+            throw "File not found: '" + x + "'";
+          return Sk.builtinFiles["files"][x];
+        }
+
+        function runit() {
+          const prog = document.getElementById("code").value;
+          document.getElementById("output").textContent = "";
+          Sk.importMainWithBody("<stdin>", false, prog);
+        }
+        </script>
 
 <h2>Rules</h2>
 
