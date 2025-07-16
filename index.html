@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calculus Romanus</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdfdfd;
+            padding: 20px;
+        }
+
+        pre {
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 8px;
+            font-family: Consolas, monospace;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: #f8f8f8;
+            margin-top: 10px;
+        }
+
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #e0e0e0;
+        }
+
+        ul {
+            margin-bottom: 1em;
+        }
+
+        li {
+            margin-bottom: 0.5em;
+        }
+        textarea {
+            font-size: 1.2rem;
+            font-family: monospace;
+            background-color: #f0f0f0; /* light gray */
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            resize: both; /* allows resizing */
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+          }
+        .run-button {
+          margin-top: 10px;
+          background-color: #28a745;
+          color: white;
+          border: none;
+          padding: 10px 24px;
+          font-size: 1.1rem;
+          border-radius: 8px;
+          cursor: pointer;
+          font-family: inherit;
+          display: block;
+        }
+
+        .run-button:hover {
+          background-color: #218838;
+        }
+        </style>
+</head>
+<body>
+<h1>Calculus Romanus</h1>
+<h2>Playground</h2>
+<textarea cols="80" rows="12" spellcheck="false">
+functio Summa(a, b)
+  reddo a addit b
+finio
+
+Scribo Summa(V, III)
+</textarea>
+<button class="run-button">Run ▶️</button>
+
+<h2>Rules</h2>
+
+<ul>
+
+    <li>All numbers written using Roman numerals</li>
+<li>All variables should be names of Roman Emperors (fixed list of 10 names)
+<li>the "print" command is called "Scribo"
+
+    <li>No arithmetic symbols, only Roman words, no division (not invented yet):
+
+<pre>
+I addit II  # 1 + 2
+V minuit II # 5-2
+III multiplicat IV  # 3*4
+</pre>
+
+</li>
+    <li>error handling: no negative numbers or zero (Romans didn't invent that), so whole program crashes if encountered (fun part)</li>
+
+<li>functions
+
+Function definitions: functio, finio; reddo -- return:
+
+<pre>
+functio Summa(a, b)
+  reddo a addit b
+finio
+</pre>
+
+Function calls
+
+<pre>
+Scribo Summa(V, III)
+</pre>
+</li>
+<li>Conditions: if == si, else -- aliter
+
+<pre>
+si Augustus maior quam X ergo
+    Scribo "Augustus est dives"
+aliter
+    Scribo "Augustus non est dives"
+</pre>
+</li>
+<li>Comparisons
+
+    <table>
+        <thead>
+<th>English</th><th>Calculus Romanus<th>
+        </thead>
+        <tbody>
+<tr><td> Equals </td><td>  aequus </td></tr>
+<tr><td> Not Equals   </td><td> non aequus       </td></tr>
+<tr><td> Greater than </td><td> maior quam       </td></tr>
+<tr><td> Less than    </td><td> minor quam       </td></tr>
+        </tbody>
+        </table>
+</li>
+<li>Quircks
+<ul>
+    <li>No operator prescedence, no brackets</li>
+    <li> 0 (zero) and negative numbers are not invented yet, so the program crashes if encounters those!</li>
+    </ul>
+</li>
+</ul>
+</body>
+</html>
