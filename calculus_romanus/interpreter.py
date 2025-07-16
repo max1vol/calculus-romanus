@@ -39,6 +39,9 @@ def tokenize(code):
     code = code.replace("maior quam", "maior_quam")
     code = code.replace("minor quam", "minor_quam")
     code = code.replace("non aequus", "non_aequus")
+    code = code.replace("(", " ( ")
+    code = code.replace(")", " ) ")
+    code = code.replace(",", " , ")
     tokens = code.split()
     return tokens
 
@@ -69,6 +72,8 @@ def execute_statement(state):
     elif token == "functio":
         handle_function_definition(state)
     elif token in state.functions:
+        # This is a function call statement, but it doesn't return a value to anything.
+        # We can simply execute it.
         execute_function(token, state)
     else:
         state.index += 1  # Ignore unknown tokens
@@ -131,8 +136,10 @@ def handle_function_definition(state):
 
 def evaluate_expression(state):
     error_message = "Transgressio! In aetate Romanorum, numeri infra I non existunt. (Violation! In the age of the Romans, numbers below I do not exist.)"
+
     left = get_value(state)
-    if left <= 0:
+
+    if isinstance(left, int) and left <= 0:
         raise ValueError(error_message)
 
     while state.index < len(state.tokens):
@@ -140,7 +147,7 @@ def evaluate_expression(state):
         if op in ["addit", "minuit", "multiplicat"]:
             state.index += 1
             right = get_value(state)
-            if right <= 0:
+            if isinstance(right, int) and right <= 0:
                 raise ValueError(error_message)
 
             if op == "addit":
@@ -176,11 +183,14 @@ def evaluate_condition(state):
 
 def get_value(state):
     token = state.tokens[state.index]
+
+    if token in state.functions:
+        state.index += 1
+        return execute_function(token, state)
+
     state.index += 1
     if token in state.variables:
         return state.variables[token]
-    elif token in state.functions:
-        return execute_function(token, state)
     else:
         try:
             return from_roman(token)
@@ -196,7 +206,7 @@ def execute_function(name, state):
         state.index += 1
         while state.tokens[state.index] != ")":
             args.append(evaluate_expression(state))
-            if state.tokens[state.index] == ",":
+            if state.index < len(state.tokens) and state.tokens[state.index] == ",":
                 state.index += 1
         state.index += 1  # Consume ")"
 
@@ -209,10 +219,14 @@ def execute_function(name, state):
     for param, arg in zip(params, args):
         local_state.variables[param] = arg
 
+    # Execute function body
+    result = None
     while local_state.index < len(local_state.tokens):
-        if local_state.tokens[local_state.index] == "reddo":
+        token = local_state.tokens[local_state.index]
+        if token == "reddo":
             local_state.index += 1  # Consume "reddo"
-            return evaluate_expression(local_state)
+            result = evaluate_expression(local_state)
+            break
         execute_statement(local_state)
 
-    raise SyntaxError("Function did not return a value")
+    return result
