@@ -140,7 +140,7 @@ def evaluate_condition(state):
     elif op == "minor_quam":
         return left < right
     else:
-        raise SyntaxError(f"Unknown comparison operator: {op}")
+        raise SyntaxError("Unknown comparison operator: " + op)
 
 
 def get_value(state):
@@ -154,7 +154,7 @@ def get_value(state):
         try:
             return from_roman(token)
         except KeyError:
-            raise NameError(f"Unknown variable or invalid Roman numeral: {token}")
+            raise NameError("Unknown variable or invalid Roman numeral: " + token)
 
 
 def execute_function(name, state):
