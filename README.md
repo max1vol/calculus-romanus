@@ -2,6 +2,10 @@
 
 ## Interactive Demo
 
+[Calculus Romanus](https://max1vol.github.io/calculus-romanus/)
+
+## Colab
+
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1W_tQP46Nd50Zv0cDFZQMZe9bMmbhkfdH?usp=sharing)
 
 ## Rules
